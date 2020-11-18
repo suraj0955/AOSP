@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include<stdlib.h>
+
 
 /* Structure of a node */
 struct node {
@@ -11,13 +11,13 @@ struct node {
 void createList(int n);
 void insertNodeAtBeginning(int data);
 void displayList();
-
+void DeleteFront();
 
 int main()
 {
     int n, data;
 
-    /*
+    /*A
      * Create a singly linked list of n nodes
      */
     printf("Enter the total number of nodes: ");
@@ -32,8 +32,13 @@ int main()
     printf("\nEnter data to insert at beginning of the list: ");
     scanf("%d", &data);
     insertNodeAtBeginning(data);
+    
+    printf("\nInserted data in the list \n");
+    displayList();
+    
+    DeleteFront();
 
-    printf("\nData in the list \n");
+    printf("\nDeleted data in the list \n");
     displayList();
 
     return 0;
@@ -148,5 +153,15 @@ void displayList()
     }
 }
 
-
+void DeleteFront()
+{
+    
+    struct node *temp=head, *prev=NULL;
+    
+    prev=temp;
+    
+    prev->next=temp->next;
+    free(temp);
+    
+}
 
