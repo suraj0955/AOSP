@@ -12,10 +12,13 @@ void createList(int n);
 void insertNodeAtBeginning(int data);
 void displayList();
 void DeleteFront();
-
+void DeleteEnd();
+void Insert_At_Position();
+void Insert_At_End();
+void insert_front();
 int main()
 {
-    int n, data;
+    int n, Udata, choice;
 
     /*A
      * Create a singly linked list of n nodes
@@ -24,26 +27,67 @@ int main()
     scanf("%d", &n);
     createList(n);
 
-    printf("\nData in the list \n");
-    displayList();
+    while(1)
+    {
+        
+    printf("\n**************MENU***************\n");
+    printf("\n1: DisplayList 2: insertNodeAtBeginning 3: Insert_At_Position 4: Insert_At_End 5: DeleteFront 6: DeleteEnd ");
+    printf("7: Insert_At_front\n");
+    printf("Enter the choice : ");
+    scanf("%d",&choice);
+    
+    switch(choice)
+    {
+        
+    
+    case 1:    
+            printf("\nData in the list \n");
+            displayList();
+            break;
+/***********************************************************/
     /*
      * Insert data at the beginning of the singly linked list
      */
-    printf("\nEnter data to insert at beginning of the list: ");
-    scanf("%d", &data);
-    insertNodeAtBeginning(data);
+     
+     case 2:
+            printf("\nEnter data to insert at beginning of the list: ");
+            scanf("%d", &Udata);
     
-    printf("\nInserted data in the list \n");
-    displayList();
+            insertNodeAtBeginning(Udata);
+            break;
+            
+    case 3:
     
-    DeleteFront();
+             Insert_At_Position();
+             break;
+    case 4:
+             Insert_At_End();
+             break;
+/************************************************/
+    case 5:
+             DeleteFront();
+             break;
+             printf("\nDeleted data in the list \n");
 
-    printf("\nDeleted data in the list \n");
-    displayList();
+/************************************************/
 
+    case 6:    
+             DeleteEnd();
+             break;
+
+    case 7: insert_front();
+            break;
+            
+    default:
+            printf("Enter the right choice!!!\n");
+    
+    
     return 0;
-}
 
+    }
+    
+    }
+}
 
 /*
  * Create a list of n nodes
@@ -79,7 +123,7 @@ void createList(int n)
          */
         for(i=2; i<=n; i++)
         {
-            newNode = (struct node *)malloc(sizeof(struct node));
+            newNode = malloc(sizeof(struct node));
 
             /* If memory is not allocated for newNode */
             if(newNode == NULL)
@@ -112,7 +156,7 @@ void insertNodeAtBeginning(int data)
 {
     struct node *newNode;
 
-    newNode = (struct node*)malloc(sizeof(struct node));
+    newNode =malloc(sizeof(struct node));
 
     if(newNode == NULL)
     {
@@ -156,12 +200,116 @@ void displayList()
 void DeleteFront()
 {
     
-    struct node *temp=head, *prev=NULL;
+  
     
-    prev=temp;
+    struct node *toDelptr;
+    if(head == NULL)
+    {
+        printf(" There are no node in the list.");
+    }
+    else
+    {
+        toDelptr = head;
+        head = head->next;
+        printf("\n Data of node 1 which is being deleted is :  %d\n", toDelptr->data);
+        free(toDelptr);  // Clears the memory occupied by first node
+    }
+    
+}
+
+void DeleteEnd()
+{
+    
+    struct node *temp , *prev=NULL;
+    
+    for(temp=head;temp->next;temp=temp->next)
+    {
+        
+        prev=temp;
+    }
     
     prev->next=temp->next;
     free(temp);
     
+    
+
+}
+
+void Insert_At_End()
+{
+        struct node *temp, *prev=NULL, *ptr=head;
+        int NODE;
+        
+        temp=malloc(sizeof(struct node));
+
+        printf("\nEnter the new node\n");
+        scanf("%d",&NODE);
+      
+        temp->data=NODE;
+        temp->next=NULL;
+        
+        
+        while(ptr->next!=NULL)
+        {
+            ptr=ptr->next;
+        }
+        
+        ptr->next=temp;
+    
+        
+}
+
+void Insert_At_Position( )
+{
+    int i=0, pos=0, NODE=0;
+    
+    struct node *ptr, *temp;
+    ptr=head;
+    
+    printf("\nEnter the node to insert\n");
+    scanf("%d",&NODE);
+    
+    
+    printf("\nEnter the position\n");
+    scanf("%d",&pos);
+    
+    
+    temp=malloc(sizeof(struct node));
+    
+    for(i=1;i<pos-1&&ptr!=NULL;i++)
+    {
+        ptr=ptr->next;
+        
+    }
+    
+    
+    temp->data=NODE;
+    
+    temp->next=ptr->next;
+    ptr->next=temp;
+}
+
+void insert_front() {
+    
+    int value;
+    struct node * new_node = NULL;
+
+    printf("Enter the value");
+    scanf("%d",&value);
+    /*Allocating memory for the new node*/
+    new_node =malloc(sizeof(struct node));
+
+    if (new_node == NULL)
+    {
+        printf("Failed to insert element. Out of memory");
+    }
+
+    new_node->data = value;
+
+    /*Pointing the new node to where head is currently pointing to*/
+    new_node->next = head;
+
+    /*Pointing head to new node.*/
+    head = new_node;
 }
 
