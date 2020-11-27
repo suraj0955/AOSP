@@ -16,6 +16,9 @@ void DeleteEnd();
 void Insert_At_Position();
 void Insert_At_End();
 void insert_front();
+void FindMiddle_Delete_PreviousNode();
+void FindLastNth();
+
 int main()
 {
     int n, Udata, choice;
@@ -31,8 +34,8 @@ int main()
     {
         
     printf("\n**************MENU***************\n");
-    printf("\n1: DisplayList 2: insertNodeAtBeginning 3: Insert_At_Position 4: Insert_At_End 5: DeleteFront 6: DeleteEnd ");
-    printf("7: Insert_At_front\n");
+    printf("\n1: DisplayList 2: insertNodeAtBeginning 3: Insert_At_Position 4: Insert_At_End 5: DeleteFront\n 6: DeleteEnd ");
+    printf("7: Insert_At_front 8:FindMiddle_Delete_PreviousNode 9:FindLastNth\n");
     printf("Enter the choice : ");
     scanf("%d",&choice);
     
@@ -76,6 +79,14 @@ int main()
              break;
 
     case 7: insert_front();
+            break;
+        
+    case 8:  
+            FindMiddle_Delete_PreviousNode();
+            break;
+
+    case 9:
+            FindLastNth();
             break;
             
     default:
@@ -313,3 +324,68 @@ void insert_front() {
     head = new_node;
 }
 
+
+void FindMiddle_Delete_PreviousNode()
+{
+
+	struct node *FastPtr=head, *SlowPtr=head , *prev ,*temp=head;
+	
+    if(head == NULL)
+    {
+        printf(" There are no node in the list.");
+    }
+    else
+	{
+	    
+	
+	while((FastPtr!=NULL)&&(FastPtr->next)!=NULL)
+	{
+		temp=temp->next;
+		FastPtr=FastPtr->next->next;
+		prev=SlowPtr;
+		SlowPtr=SlowPtr->next;
+	}
+
+
+	printf("Middle Node is %d \n", temp->data);
+
+	/*To delete previous node of middle node*/
+
+	printf("Now we are deleting the previous node of middle node :%d\n", prev->data);	
+	SlowPtr->next=prev->next;
+	prev->next=NULL;
+	free(prev);
+	
+	printf("Previous node of middle node deleted\n");
+
+
+	}
+	
+}
+
+
+void FindLastNth()
+{
+    
+    struct node *temp=head;
+    
+    int number,count ,i;
+    
+    printf("Enter the number to find from last\n");
+    scanf("%d",&number);
+    
+   while(temp)
+   {
+       count++;
+       temp=temp->next;
+   }
+    temp=head;
+    for (i=0;i<count-number;i++)
+    {
+        temp=temp->next;
+        
+    }
+    
+    printf("Last %d number element is : %d\n", number ,temp->data);
+    
+}
